@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Timer Inside Circle</title>
+  <style>
+    .container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #timer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      color: #a8328d;
+      font-weight: bold;
+    }
+    button{
+        color: #a8328d;
+        border-radius: 20px;
+        margin: 40px;
+        font-size: large;
+    }
+    .buttons{
+        display: flex;
+        justify-items: auto;
+       
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <svg height="300" width="300">
+      <circle
+        id="circle"
+        cx="150"
+        cy="150"
+        r="140"
+        fill="none"
+        stroke-width="10"
+        stroke="#a8328d"
+      />
+      <circle
+        id="circle"
+        cx="150"
+        cy="150"
+        r="140"
+        fill="none"
+        stroke-width="10"
+        stroke="#FF69B44D"
+      />
+    </svg>
+    <label id="timer">00:30</label>
+  </div>
+  <div class="buttons">
+    <button onclick="add()">+ 10sec</button>
+    <button onclick="change()">skip</button>
+  </div>
+  <script>
+    let t=30;
+    let total=t;
+     function setcircle(total){
+        const circle=document.getElementById("circle");
+        const radius = circle.r.baseVal.value;
+        const circumfernce=2*Math.PI*radius;
+        circle.style.strokeDasharray = circumfernce;
+        circle.style.strokeDashoffset = circumfernce * (1 - total / t);
+
+     }
+
+
+    const timer=document.getElementById("timer");
+    function interval(){
+        const setid=setInterval(()=>{
+             let minutes=(Math.floor)(total/60);
+             let seconds=total%60;
+             timer.textContent=String(minutes).padStart(2,'0')+" :"+ String(seconds).padStart(2,'0');
+ 
+        setcircle(total);
+
+        total--;
+        if(total<0){
+            clearInterval(setid);
+            timer.textContent="00:00";
+        }
+
+
+        },1000);
+    }
+    interval();
+    function add(){
+        total=total+10;
+
+    }
+    function  change(){
+        total=0;
+    }
+  </script>
+</body>
+</html>
+
+
+
